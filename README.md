@@ -17,6 +17,12 @@ Or clone manually:
 git clone https://gitlab.com/koinju-public/agent-skill.git ~/.claude/skills/koinju
 ```
 
+Update to the latest version:
+
+```bash
+npx skills update koinju        # add -g if you installed globally
+```
+
 Then in any Claude Code session, the skill triggers automatically on Koinju- and crypto-data-related queries. See `SKILL.md` for the workflow and `references/` for the bundled documentation.
 
 ## Command examples this skill helps with 
@@ -37,7 +43,3 @@ Then in any Claude Code session, the skill triggers automatically on Koinju- and
 ## Credentials
 
 Don't have credentials yet? Sign up at [koinju.io/pricing](https://koinju.io/pricing) — Koinju emails you a link to [dataroom.koinju.io](https://dataroom.koinju.io) where the REST key and ClickHouse host / user / password live. See `references/auth.md` for the env-var layout.
-
-## License
-
-MIT. See [LICENSE](LICENSE).

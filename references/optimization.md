@@ -13,6 +13,8 @@ Koinju's tables are huge: `api.trade` is ~40 TB, `public_data.candle_1m` (source
 
 3. **Prefer convenience views when you can.** `api.ohlcv_1m` and `api.ohlcv_1h` skip the parameterized scan and let the planner prune partitions more aggressively than `api.ohlcv(candle_duration_in_minutes = X)`. **There is no `api.ohlcv_1d`** — for daily candles, the parameterized view (`candle_duration_in_minutes = 1440`) is the only path.
 
+   `api.ohlcv` is a **parameterized view**: always call it as `api.ohlcv(candle_duration_in_minutes = N)`, never bare. It can't be `DESCRIBE`d directly (DESCRIBE returns no columns — that means "parameterized view", not "missing"). For its columns use a `DESCRIBE (SELECT * FROM api.ohlcv(candle_duration_in_minutes = 1440) LIMIT 0)` or `scripts/probe-schema.sh ohlcv`.
+
 4. **Aggregate server-side.** `SELECT avg(close)` returns one row; `SELECT close` then averaging in pandas streams millions.
 
 5. **`argMax` for "value at the latest timestamp" per group.** Faster than `ORDER BY timestamp DESC LIMIT 1` with `GROUP BY`:
@@ -53,7 +55,7 @@ WHERE market = 'LINK-USDT'
   AND timestamp >= now() - INTERVAL 365 DAY;
 ```
 
-**Optimized — scans 365 rows:**
+**Optimized — returns 365 rows** (~350× less data than the raw-trades scan above):
 
 ```sql
 SELECT avg(close)                              AS arith_mean,
@@ -64,6 +66,10 @@ WHERE market   = 'LINK-USDT'
   AND start   >= now() - INTERVAL 365 DAY
 SETTINGS max_execution_time = 30;
 ```
+
+**Mind the gap between rows returned and rows scanned.** `365` is the *output* count, not the scan cost: the `1440` view aggregates up from `public_data.candle_1m` on the fly, so a 1-year single-market window still reads on the order of hundreds of millions of 1m rows (~374M measured) before collapsing to 365 daily candles. It's far cheaper than scanning raw trades, but it is **not** a 365-row scan. Use `EXPLAIN ESTIMATE` (below) to see the real read size.
+
+> **Follow-up worth checking**: because even daily candles read `candle_1m`, the scan floor is the 1m source — not the output granularity. If you run many such roll-ups, check whether a coarser pre-aggregated source (a daily rollup table, or a materialized view) exists that would scan less than `candle_1m`.
 
 Single-exchange is usually what you want — mixing exchanges blends liquidity profiles and adds noise. If the user *does* want a cross-exchange average, weight by exchange volume:
 

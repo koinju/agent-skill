@@ -240,13 +240,9 @@ _Generated from `clickhouse/tables/api/**/*.sql` — 14 public objects. Run `koi
 #### `api.funding_rate`
 _Type: `VIEW` (`clickhouse/tables/api/views/funding_rate.sql`)._
 
-| Column | Type |
-|---|---|
-| `exchange` | _inferred from SELECT alias_ |
-| `contract_type` | _inferred from SELECT alias_ |
-| `market` | _inferred from SELECT alias_ |
-| `timestamp` | _inferred from SELECT alias_ |
-| `funding_rate` | _inferred from SELECT alias_ |
+Columns (from SELECT aliases): `exchange`, `contract_type`, `market`, `timestamp`, `funding_rate`
+
+_Types not declared in view DDL. For exact types run `DESCRIBE (SELECT * FROM api.funding_rate LIMIT 0)` — add the parameter for parameterized views, e.g. `api.ohlcv(candle_duration_in_minutes = 1440)` — or `bash scripts/probe-schema.sh funding_rate`._
 
 #### `api.koinju_market_name_lookup`
 _Type: `DICTIONARY` (`clickhouse/tables/api/views/ohlcv.sql`)._
@@ -259,242 +255,110 @@ _Type: `DICTIONARY` (`clickhouse/tables/api/views/ohlcv.sql`)._
 #### `api.market_future`
 _Type: `VIEW` (`clickhouse/tables/api/views/market.sql`)._
 
-| Column | Type |
-|---|---|
-| `exchange` | _inferred from SELECT alias_ |
-| `market_symbol` | _inferred from SELECT alias_ |
-| `underlying_asset` | _inferred from SELECT alias_ |
-| `quote_asset` | _inferred from SELECT alias_ |
-| `settling_asset` | _inferred from SELECT alias_ |
-| `denomination_asset` | _inferred from SELECT alias_ |
-| `expiration` | _inferred from SELECT alias_ |
-| `contract_size` | _inferred from SELECT alias_ |
-| `contract_type` | _inferred from SELECT alias_ |
-| `future_type` | _inferred from SELECT alias_ |
-| `exchange_specific_symbol` | _inferred from SELECT alias_ |
+Columns (from SELECT aliases): `exchange`, `market_symbol`, `underlying_asset`, `quote_asset`, `settling_asset`, `denomination_asset`, `expiration`, `contract_size`, `contract_type`, `future_type`, `exchange_specific_symbol`
+
+_Types not declared in view DDL. For exact types run `DESCRIBE (SELECT * FROM api.market_future LIMIT 0)` — add the parameter for parameterized views, e.g. `api.ohlcv(candle_duration_in_minutes = 1440)` — or `bash scripts/probe-schema.sh market_future`._
 
 #### `api.market_option`
 _Type: `VIEW` (`clickhouse/tables/api/views/market.sql`)._
 
-| Column | Type |
-|---|---|
-| `exchange` | _inferred from SELECT alias_ |
-| `market_symbol` | _inferred from SELECT alias_ |
-| `underlying_asset` | _inferred from SELECT alias_ |
-| `quote_asset` | _inferred from SELECT alias_ |
-| `settling_asset` | _inferred from SELECT alias_ |
-| `expiration` | _inferred from SELECT alias_ |
-| `strike` | _inferred from SELECT alias_ |
-| `contract_size` | _inferred from SELECT alias_ |
-| `contract_type` | _inferred from SELECT alias_ |
-| `option_type` | _inferred from SELECT alias_ |
-| `exchange_specific_symbol` | _inferred from SELECT alias_ |
+Columns (from SELECT aliases): `exchange`, `market_symbol`, `underlying_asset`, `quote_asset`, `settling_asset`, `expiration`, `strike`, `contract_size`, `contract_type`, `option_type`, `exchange_specific_symbol`
+
+_Types not declared in view DDL. For exact types run `DESCRIBE (SELECT * FROM api.market_option LIMIT 0)` — add the parameter for parameterized views, e.g. `api.ohlcv(candle_duration_in_minutes = 1440)` — or `bash scripts/probe-schema.sh market_option`._
 
 #### `api.market_spot`
 _Type: `VIEW` (`clickhouse/tables/api/views/market.sql`)._
 
-| Column | Type |
-|---|---|
-| `exchange` | _inferred from SELECT alias_ |
-| `market_symbol` | _inferred from SELECT alias_ |
-| `base_asset` | _inferred from SELECT alias_ |
-| `quote_asset` | _inferred from SELECT alias_ |
-| `exchange_specific_symbol` | _inferred from SELECT alias_ |
+Columns (from SELECT aliases): `exchange`, `market_symbol`, `base_asset`, `quote_asset`, `exchange_specific_symbol`
+
+_Types not declared in view DDL. For exact types run `DESCRIBE (SELECT * FROM api.market_spot LIMIT 0)` — add the parameter for parameterized views, e.g. `api.ohlcv(candle_duration_in_minutes = 1440)` — or `bash scripts/probe-schema.sh market_spot`._
 
 #### `api.ohlcv`
 _Type: `VIEW` (`clickhouse/tables/api/views/ohlcv.sql`)._
 
-| Column | Type |
-|---|---|
-| `start` | _inferred from SELECT alias_ |
-| `end` | _inferred from SELECT alias_ |
-| `exchange` | _inferred from SELECT alias_ |
-| `market` | _inferred from SELECT alias_ |
-| `open` | _inferred from SELECT alias_ |
-| `high` | _inferred from SELECT alias_ |
-| `low` | _inferred from SELECT alias_ |
-| `close` | _inferred from SELECT alias_ |
-| `volume` | _inferred from SELECT alias_ |
-| `count` | _inferred from SELECT alias_ |
-| `duration_minutes` | _inferred from SELECT alias_ |
+Columns (from SELECT aliases): `start`, `end`, `exchange`, `market`, `open`, `high`, `low`, `close`, `volume`, `count`, `duration_minutes`
+
+_Types not declared in view DDL. For exact types run `DESCRIBE (SELECT * FROM api.ohlcv LIMIT 0)` — add the parameter for parameterized views, e.g. `api.ohlcv(candle_duration_in_minutes = 1440)` — or `bash scripts/probe-schema.sh ohlcv`._
 
 #### `api.ohlcv_1h`
 _Type: `VIEW` (`clickhouse/tables/api/views/ohlcv.sql`)._
 
-| Column | Type |
-|---|---|
-| `start` | _inferred from SELECT alias_ |
-| `end` | _inferred from SELECT alias_ |
-| `exchange` | _inferred from SELECT alias_ |
-| `market` | _inferred from SELECT alias_ |
-| `open` | _inferred from SELECT alias_ |
-| `high` | _inferred from SELECT alias_ |
-| `low` | _inferred from SELECT alias_ |
-| `close` | _inferred from SELECT alias_ |
-| `volume` | _inferred from SELECT alias_ |
-| `count` | _inferred from SELECT alias_ |
-| `duration_minutes` | _inferred from SELECT alias_ |
+Columns (from SELECT aliases): `start`, `end`, `exchange`, `market`, `open`, `high`, `low`, `close`, `volume`, `count`, `duration_minutes`
+
+_Types not declared in view DDL. For exact types run `DESCRIBE (SELECT * FROM api.ohlcv_1h LIMIT 0)` — add the parameter for parameterized views, e.g. `api.ohlcv(candle_duration_in_minutes = 1440)` — or `bash scripts/probe-schema.sh ohlcv_1h`._
 
 #### `api.ohlcv_1m`
 _Type: `VIEW` (`clickhouse/tables/api/views/ohlcv.sql`)._
 
-| Column | Type |
-|---|---|
-| `start` | _inferred from SELECT alias_ |
-| `end` | _inferred from SELECT alias_ |
-| `exchange` | _inferred from SELECT alias_ |
-| `market` | _inferred from SELECT alias_ |
-| `open` | _inferred from SELECT alias_ |
-| `high` | _inferred from SELECT alias_ |
-| `low` | _inferred from SELECT alias_ |
-| `close` | _inferred from SELECT alias_ |
-| `volume` | _inferred from SELECT alias_ |
-| `count` | _inferred from SELECT alias_ |
-| `duration_minutes` | _inferred from SELECT alias_ |
+Columns (from SELECT aliases): `start`, `end`, `exchange`, `market`, `open`, `high`, `low`, `close`, `volume`, `count`, `duration_minutes`
+
+_Types not declared in view DDL. For exact types run `DESCRIBE (SELECT * FROM api.ohlcv_1m LIMIT 0)` — add the parameter for parameterized views, e.g. `api.ohlcv(candle_duration_in_minutes = 1440)` — or `bash scripts/probe-schema.sh ohlcv_1m`._
 
 #### `api.option_chains`
 _Type: `TABLE` (`clickhouse/tables/api/option_chains.sql`)._
 
 | Column | Type |
 |---|---|
-| `exchange` | `LowCardinality(String` |
+| `exchange` | `LowCardinality(String)` |
+| `timestamp` | `DateTime64(9, 'UTC')` |
+| `instrument_name` | `String` |
+| `underlying_asset` | `LowCardinality(String)` |
+| `quote_asset` | `LowCardinality(String)` |
+| `expiration` | `DateTime64(9, 'UTC')` |
+| `strike` | `Decimal(38, 18)` |
+| `option_type` | `Enum8('C' = 1, 'P' = 2)` |
+| `bid_price` | `Decimal(38, 18)` |
+| `ask_price` | `Decimal(38, 18)` |
+| `last_price` | `Decimal(38, 18)` |
+| `mark_price` | `Decimal(38, 18)` |
+| `index_price` | `Decimal(38, 18)` |
+| `underlying_price` | `Decimal(38, 18)` |
+| `mark_iv` | `Decimal(38, 18)` |
+| `bid_iv` | `Decimal(38, 18)` |
+| `ask_iv` | `Decimal(38, 18)` |
+| `delta` | `Decimal(38, 18)` |
+| `gamma` | `Decimal(38, 18)` |
+| `vega` | `Decimal(38, 18)` |
+| `theta` | `Decimal(38, 18)` |
+| `open_interest` | `Decimal(38, 18)` |
+| `volume_24h` | `Decimal(38, 18)` |
+| `state` | `LowCardinality(String)` |
+| `meta` | `String` |
 
 #### `api.option_chains_mv_binance`
 _Type: `MATERIALIZED VIEW` (`clickhouse/tables/api/option_chains_mv.sql`)._
 
-| Column | Type |
-|---|---|
-| `exchange` | _inferred from SELECT alias_ |
-| `timestamp` | _inferred from SELECT alias_ |
-| `instrument_name` | _inferred from SELECT alias_ |
-| `underlying_asset` | _inferred from SELECT alias_ |
-| `quote_asset` | _inferred from SELECT alias_ |
-| `expiration` | _inferred from SELECT alias_ |
-| `strike` | _inferred from SELECT alias_ |
-| `option_type` | _inferred from SELECT alias_ |
-| `bid_price` | _inferred from SELECT alias_ |
-| `ask_price` | _inferred from SELECT alias_ |
-| `last_price` | _inferred from SELECT alias_ |
-| `mark_price` | _inferred from SELECT alias_ |
-| `index_price` | _inferred from SELECT alias_ |
-| `underlying_price` | _inferred from SELECT alias_ |
-| `mark_iv` | _inferred from SELECT alias_ |
-| `bid_iv` | _inferred from SELECT alias_ |
-| `ask_iv` | _inferred from SELECT alias_ |
-| `delta` | _inferred from SELECT alias_ |
-| `gamma` | _inferred from SELECT alias_ |
-| `vega` | _inferred from SELECT alias_ |
-| `theta` | _inferred from SELECT alias_ |
-| `open_interest` | _inferred from SELECT alias_ |
-| `volume_24h` | _inferred from SELECT alias_ |
-| `state` | _inferred from SELECT alias_ |
-| `meta` | _inferred from SELECT alias_ |
+Columns (from SELECT aliases): `exchange`, `timestamp`, `instrument_name`, `underlying_asset`, `quote_asset`, `expiration`, `strike`, `option_type`, `bid_price`, `ask_price`, `last_price`, `mark_price`, `index_price`, `underlying_price`, `mark_iv`, `bid_iv`, `ask_iv`, `delta`, `gamma`, `vega`, `theta`, `open_interest`, `volume_24h`, `state`, `meta`
+
+_Types not declared in view DDL. For exact types run `DESCRIBE (SELECT * FROM api.option_chains_mv_binance LIMIT 0)` — add the parameter for parameterized views, e.g. `api.ohlcv(candle_duration_in_minutes = 1440)` — or `bash scripts/probe-schema.sh option_chains_mv_binance`._
 
 #### `api.option_chains_mv_bybit`
 _Type: `MATERIALIZED VIEW` (`clickhouse/tables/api/option_chains_mv.sql`)._
 
-| Column | Type |
-|---|---|
-| `exchange` | _inferred from SELECT alias_ |
-| `timestamp` | _inferred from SELECT alias_ |
-| `instrument_name` | _inferred from SELECT alias_ |
-| `underlying_asset` | _inferred from SELECT alias_ |
-| `quote_asset` | _inferred from SELECT alias_ |
-| `expiration` | _inferred from SELECT alias_ |
-| `strike` | _inferred from SELECT alias_ |
-| `option_type` | _inferred from SELECT alias_ |
-| `bid_price` | _inferred from SELECT alias_ |
-| `ask_price` | _inferred from SELECT alias_ |
-| `last_price` | _inferred from SELECT alias_ |
-| `mark_price` | _inferred from SELECT alias_ |
-| `index_price` | _inferred from SELECT alias_ |
-| `underlying_price` | _inferred from SELECT alias_ |
-| `mark_iv` | _inferred from SELECT alias_ |
-| `bid_iv` | _inferred from SELECT alias_ |
-| `ask_iv` | _inferred from SELECT alias_ |
-| `delta` | _inferred from SELECT alias_ |
-| `gamma` | _inferred from SELECT alias_ |
-| `vega` | _inferred from SELECT alias_ |
-| `theta` | _inferred from SELECT alias_ |
-| `open_interest` | _inferred from SELECT alias_ |
-| `volume_24h` | _inferred from SELECT alias_ |
-| `state` | _inferred from SELECT alias_ |
-| `meta` | _inferred from SELECT alias_ |
+Columns (from SELECT aliases): `exchange`, `timestamp`, `instrument_name`, `underlying_asset`, `quote_asset`, `expiration`, `strike`, `option_type`, `bid_price`, `ask_price`, `last_price`, `mark_price`, `index_price`, `underlying_price`, `mark_iv`, `bid_iv`, `ask_iv`, `delta`, `gamma`, `vega`, `theta`, `open_interest`, `volume_24h`, `state`, `meta`
+
+_Types not declared in view DDL. For exact types run `DESCRIBE (SELECT * FROM api.option_chains_mv_bybit LIMIT 0)` — add the parameter for parameterized views, e.g. `api.ohlcv(candle_duration_in_minutes = 1440)` — or `bash scripts/probe-schema.sh option_chains_mv_bybit`._
 
 #### `api.option_chains_mv_deribit`
 _Type: `MATERIALIZED VIEW` (`clickhouse/tables/api/option_chains_mv.sql`)._
 
-| Column | Type |
-|---|---|
-| `exchange` | _inferred from SELECT alias_ |
-| `timestamp` | _inferred from SELECT alias_ |
-| `instrument_name` | _inferred from SELECT alias_ |
-| `underlying_asset` | _inferred from SELECT alias_ |
-| `quote_asset` | _inferred from SELECT alias_ |
-| `expiration` | _inferred from SELECT alias_ |
-| `strike` | _inferred from SELECT alias_ |
-| `option_type` | _inferred from SELECT alias_ |
-| `bid_price` | _inferred from SELECT alias_ |
-| `ask_price` | _inferred from SELECT alias_ |
-| `last_price` | _inferred from SELECT alias_ |
-| `mark_price` | _inferred from SELECT alias_ |
-| `index_price` | _inferred from SELECT alias_ |
-| `underlying_price` | _inferred from SELECT alias_ |
-| `mark_iv` | _inferred from SELECT alias_ |
-| `bid_iv` | _inferred from SELECT alias_ |
-| `ask_iv` | _inferred from SELECT alias_ |
-| `delta` | _inferred from SELECT alias_ |
-| `gamma` | _inferred from SELECT alias_ |
-| `vega` | _inferred from SELECT alias_ |
-| `theta` | _inferred from SELECT alias_ |
-| `open_interest` | _inferred from SELECT alias_ |
-| `volume_24h` | _inferred from SELECT alias_ |
-| `state` | _inferred from SELECT alias_ |
-| `meta` | _inferred from SELECT alias_ |
+Columns (from SELECT aliases): `exchange`, `timestamp`, `instrument_name`, `underlying_asset`, `quote_asset`, `expiration`, `strike`, `option_type`, `bid_price`, `ask_price`, `last_price`, `mark_price`, `index_price`, `underlying_price`, `mark_iv`, `bid_iv`, `ask_iv`, `delta`, `gamma`, `vega`, `theta`, `open_interest`, `volume_24h`, `state`, `meta`
+
+_Types not declared in view DDL. For exact types run `DESCRIBE (SELECT * FROM api.option_chains_mv_deribit LIMIT 0)` — add the parameter for parameterized views, e.g. `api.ohlcv(candle_duration_in_minutes = 1440)` — or `bash scripts/probe-schema.sh option_chains_mv_deribit`._
 
 #### `api.option_chains_mv_okx`
 _Type: `MATERIALIZED VIEW` (`clickhouse/tables/api/option_chains_mv.sql`)._
 
-| Column | Type |
-|---|---|
-| `exchange` | _inferred from SELECT alias_ |
-| `timestamp` | _inferred from SELECT alias_ |
-| `instrument_name` | _inferred from SELECT alias_ |
-| `underlying_asset` | _inferred from SELECT alias_ |
-| `quote_asset` | _inferred from SELECT alias_ |
-| `expiration` | _inferred from SELECT alias_ |
-| `strike` | _inferred from SELECT alias_ |
-| `option_type` | _inferred from SELECT alias_ |
-| `bid_price` | _inferred from SELECT alias_ |
-| `ask_price` | _inferred from SELECT alias_ |
-| `last_price` | _inferred from SELECT alias_ |
-| `mark_price` | _inferred from SELECT alias_ |
-| `index_price` | _inferred from SELECT alias_ |
-| `underlying_price` | _inferred from SELECT alias_ |
-| `mark_iv` | _inferred from SELECT alias_ |
-| `bid_iv` | _inferred from SELECT alias_ |
-| `ask_iv` | _inferred from SELECT alias_ |
-| `delta` | _inferred from SELECT alias_ |
-| `gamma` | _inferred from SELECT alias_ |
-| `vega` | _inferred from SELECT alias_ |
-| `theta` | _inferred from SELECT alias_ |
-| `open_interest` | _inferred from SELECT alias_ |
-| `volume_24h` | _inferred from SELECT alias_ |
-| `state` | _inferred from SELECT alias_ |
-| `meta` | _inferred from SELECT alias_ |
+Columns (from SELECT aliases): `exchange`, `timestamp`, `instrument_name`, `underlying_asset`, `quote_asset`, `expiration`, `strike`, `option_type`, `bid_price`, `ask_price`, `last_price`, `mark_price`, `index_price`, `underlying_price`, `mark_iv`, `bid_iv`, `ask_iv`, `delta`, `gamma`, `vega`, `theta`, `open_interest`, `volume_24h`, `state`, `meta`
+
+_Types not declared in view DDL. For exact types run `DESCRIBE (SELECT * FROM api.option_chains_mv_okx LIMIT 0)` — add the parameter for parameterized views, e.g. `api.ohlcv(candle_duration_in_minutes = 1440)` — or `bash scripts/probe-schema.sh option_chains_mv_okx`._
 
 #### `api.trade`
 _Type: `VIEW` (`clickhouse/tables/api/views/trade.sql`)._
 
-| Column | Type |
-|---|---|
-| `exchange` | _inferred from SELECT alias_ |
-| `market` | _inferred from SELECT alias_ |
-| `side` | _inferred from SELECT alias_ |
-| `quantity` | _inferred from SELECT alias_ |
-| `price` | _inferred from SELECT alias_ |
-| `timestamp` | _inferred from SELECT alias_ |
-| `trade_id` | _inferred from SELECT alias_ |
+Columns (from SELECT aliases): `exchange`, `market`, `side`, `quantity`, `price`, `timestamp`, `trade_id`
+
+_Types not declared in view DDL. For exact types run `DESCRIBE (SELECT * FROM api.trade LIMIT 0)` — add the parameter for parameterized views, e.g. `api.ohlcv(candle_duration_in_minutes = 1440)` — or `bash scripts/probe-schema.sh trade`._
 
 <!-- AUTOGEN END: schemas -->
 

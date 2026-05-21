@@ -13,7 +13,7 @@ description: >-
   questions unrelated to Koinju.
 metadata:
   author: Dmitry Prokofyev
-  version: "0.9.1"
+  version: "0.9.2"
   homepage: https://docs.koinju.io
 ---
 
@@ -27,7 +27,7 @@ Most "test the API" sessions need only this. Read the Workflow below for nuance.
 
 - **Set up a project**: `bash ~/.claude/skills/koinju/scripts/setup.sh [target-dir]` — auto-detects cwd-empty / uv / venv, scaffolds + installs deps + seeds `main.py` and `.koinju.env`, idempotent. Without `[target-dir]`: cwd if empty (ignoring `.git`), else `./koinju-demo/`.
 - **Probe state**: `bash ~/.claude/skills/koinju/scripts/probe-env.sh` — one line like `uv:ok pyproject:found venv:active deps:ok creds:ok project_env:found home_env:found suggest_save_global:no`. Use this before deciding to bootstrap, instead of running 4 separate `command -v` / `python -c import` / `[ -n $VAR ]` probes. If the trailing token is `suggest_save_global:yes` (project `.koinju.env` populated, but no `~/.koinju.env`), propose copying — see [Workflow step 5](#workflow).
-- **Verify schema**: `bash ~/.claude/skills/koinju/scripts/probe-schema.sh [table]` — dumps live `api.*` tables and columns. Run this before writing SQL against any table you haven't used in this session — the bundled refs DO drift from the live server.
+- **Verify schema**: `bash ~/.claude/skills/koinju/scripts/probe-schema.sh [table]` — dumps live `api.*` tables and columns. Run before writing SQL against any table you haven't used this session. Note: `DESCRIBE` (what it uses) returns empty for parameterized views like `api.ohlcv` — that's "parameterized view", not "missing"; the script falls back to `SHOW CREATE` and prints the `{param:Type}` signature.
 - **Get credentials**: https://koinju.io/pricing → sign up → check email for the dataroom link. The credential template lives at `references/koinju.env.example` (the bootstrap copies it).
 - **Public REST** (no auth — market / product / instrument discovery): `curl -s 'https://api.koinju.io/market/spot' | jq '[.[] | select(.base == "BTC")]'`. See `references/rest.md`.
 - **Migration**: legacy `KOINJU_HOST` / `KOINJU_USER` / `KOINJU_PASSWORD` → current `KOINJU_DB_HOST` / `KOINJU_DB_USER` / `KOINJU_DB_PASSWORD` (and `KOINJU_API_KEY` is new). See [Migration](#migration-legacy-env-var-names) below for the one-liner.
@@ -41,7 +41,7 @@ Most "test the API" sessions need only this. Read the Workflow below for nuance.
    - option chain / Greeks / IV / smile / DVOL → all via `api.option_chains` (**plural**; there's no `api.option_smile` or `api.volatility_index`)
    - exchange or market coverage → `api.market_spot` / `_future` / `_option` (or REST `/market/*`)
 
-   **Before writing any SQL against a table you haven't queried this session, run `bash ~/.claude/skills/koinju/scripts/probe-schema.sh [table]` to verify columns.** The bundled refs drift; the live schema is the source of truth.
+   **Before writing any SQL against a table you haven't queried this session, run `bash ~/.claude/skills/koinju/scripts/probe-schema.sh [table]` to verify columns.** The bundled refs drift; the live schema is the source of truth — but mind the lens: `probe-schema.sh` uses `DESCRIBE`, which returns **empty for parameterized views like `api.ohlcv`**. An empty or error probe means "parameterized view", **not** "table is gone." Confirm with `SHOW CREATE TABLE api.ohlcv`, a `DESCRIBE (SELECT * FROM api.ohlcv(candle_duration_in_minutes = 1440) LIMIT 0)`, or just run the SELECT. (The bundled `probe-schema.sh` already does the `SHOW CREATE` fallback and prints the `{param:Type}` signature for you.)
 
 2. **Choose interface.**
    - **Public REST `/market/*`** — **always use this for any market / product / instrument discovery question** ("what BTC pairs / futures / options exist?", "which exchanges list X?", "list all spot pairs"). No auth, no Python deps, just `curl` + `jq`. Don't fall back to SQL for plain listings. See `references/rest.md`.

@@ -11,7 +11,6 @@ description: >-
   enriching existing ClickHouse/Postgres/Redis stores with crypto data. Do
   NOT use for stock/equity markets or for general ClickHouse architecture
   questions unrelated to Koinju.
-license: MIT
 metadata:
   author: Dmitry Prokofyev
   version: "0.9.1"

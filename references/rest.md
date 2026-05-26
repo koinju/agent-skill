@@ -109,7 +109,7 @@ The discovery examples above are curated. The block below is a complete endpoint
 
 <!-- AUTOGEN START: endpoints -->
 
-_Generated from `api/market-data.yaml` — 10 endpoints. Run `koinju skill build-rest` to refresh._
+_Generated from `api/market-data.yaml` — 11 endpoints. Run `koinju skill build-rest` to refresh._
 
 #### `GET /funding-rate`
 _Get funding rates for a perpetual market_
@@ -206,6 +206,21 @@ Parameters:
 | `expiration` | query | yes | string | Expiry date, ISO (YYYY-MM-DD). Required. |
 
 Returns: `array of OptionChainRow`.
+
+#### `GET /option/matrix`
+_Get Option Matrix_
+Latest snapshot pivoted into an option board — one row per strike, calls on the left, strike, puts on the right. Same source data as /option/chain, pivoted server-side (OpenBB has no client-side pivot).
+Auth: **`x-api-key` required**.
+
+Parameters:
+
+| Name | In | Required | Type | Description |
+|---|---|---|---|---|
+| `exchange` | query | yes | string (one of: deribit, binance, okx, bybit) | Exchange — one of `deribit`, `binance`, `okx`, `bybit`. |
+| `underlying_asset` | query | yes | string | Underlying coin (e.g. `BTC`, `ETH`). |
+| `expiration` | query | yes | string | Expiry date, ISO (`YYYY-MM-DD`). Required. |
+
+Returns: `array of OptionMatrixRow`.
 
 #### `GET /option/smile`
 _Get Volatility Smile_

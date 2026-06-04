@@ -235,7 +235,7 @@ The handwritten table sections above cover usage and gotchas. The block below is
 
 <!-- AUTOGEN START: schemas -->
 
-_Generated from `clickhouse/tables/api/**/*.sql` — 14 public objects. Run `koinju skill build-schemas` to refresh._
+_Generated from `clickhouse/tables/api/**/*.sql` — 13 public objects. Run `koinju skill build-schemas` to refresh._
 
 #### `api.funding_rate`
 _Type: `VIEW` (`clickhouse/tables/api/views/funding_rate.sql`)._
@@ -243,14 +243,6 @@ _Type: `VIEW` (`clickhouse/tables/api/views/funding_rate.sql`)._
 Columns (from SELECT aliases): `exchange`, `contract_type`, `market`, `timestamp`, `funding_rate`
 
 _Types not declared in view DDL. For exact types run `DESCRIBE (SELECT * FROM api.funding_rate LIMIT 0)` — add the parameter for parameterized views, e.g. `api.ohlcv(candle_duration_in_minutes = 1440)` — or `bash scripts/probe-schema.sh funding_rate`._
-
-#### `api.koinju_market_name_lookup`
-_Type: `DICTIONARY` (`clickhouse/tables/api/views/ohlcv.sql`)._
-
-| Column | Type |
-|---|---|
-| `id` | `String` |
-| `koinju_market_name` | `String` |
 
 #### `api.market_future`
 _Type: `VIEW` (`clickhouse/tables/api/views/market.sql`)._

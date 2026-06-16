@@ -86,14 +86,6 @@ r.raise_for_status()
 candles = r.json()
 ```
 
-The same venue id covers spot and derivatives — the market symbol picks the product:
-
-```python
-params={"exchange": "binance", "market": "BTC-USDT-PERP", ...}      # USDT-margined perp
-params={"exchange": "deribit", "market": "BTC-USD-PERP-INV", ...}   # inverse perp
-params={"exchange": "deribit", "market": "BTC-BTC-2026-09-25-100000-P", ...}  # option
-```
-
 ### Rate limits per tier
 
 | Tier | req/s | req/day | items/req |
@@ -169,8 +161,8 @@ Parameters:
 
 | Name | In | Required | Type | Description |
 |---|---|---|---|---|
-| `exchange` | query | yes | string (one of: deribit, okx, bybit, delta) | Filter by exchange name. Example: 'deribit', 'bybit' |
-| `expired_before` | query | yes | string | Filter options that expired before a specific date. Accepts a plain date (`2026-06-01`, treated as midnight UTC) or a full ISO 8601 timestamp (`2026-06-01T00:00:00Z`). Option reference coverage starts 2025-11-19 — earlier values return []. |
+| `exchange` | query | yes | string (one of: deribit, okx, delta) | Filter by exchange name. Example: 'deribit', 'delta' |
+| `expired_before` | query | yes | string | Filter options that expired before a specific date. Accepts a plain date (`2024-12-31`, treated as midnight UTC) or a full ISO 8601 timestamp (`2024-12-31T23:59:59Z`). |
 
 Returns: `array of MarketOption`.
 
@@ -194,7 +186,7 @@ Parameters:
 
 | Name | In | Required | Type | Description |
 |---|---|---|---|---|
-| `exchange` | query | yes | string | Venue id, e.g. `binance`, `deribit`, `bybit` — the same id `/market/spot`, `/market/future` and `/market/option/*` return. One id covers the venue's spot and derivative markets; the market symbol determines the kind (`BTC-USDT` spot, `BTC-USDT-PERP` linear perp, `BTC-USD-PERP-INV` inverse perp, strike pattern for options). |
+| `exchange` | query | yes | string | The name of the exchange to filter by |
 | `market` | query | yes | string | The universal market symbol to filter by |
 | `candle_duration_in_minutes` | query | yes | integer | The time interval for the candles in minutes. The value can be any amount of minutes: - 1: 1 minute - 5: 5 minutes - 60: 1 hour - 1440: 1 day |
 | `start_datetime` | query | yes | string | The start time for the OHLCV data. Accepts any format parseable by `parseDateTime64BestEffort` — e.g. a plain date (`2024-06-01`, treated as midnight UTC) or a full ISO 8601 timestamp (`2024-06-01T12:00:00Z`). |
@@ -258,7 +250,7 @@ Parameters:
 
 | Name | In | Required | Type | Description |
 |---|---|---|---|---|
-| `exchange` | query | yes | string | Venue id, e.g. `binance`, `deribit`, `bybit` — the same id `/market/spot`, `/market/future` and `/market/option/*` return. One id covers the venue's spot and derivative markets; the market symbol determines the kind (`BTC-USDT` spot, `BTC-USDT-PERP` linear perp, `BTC-USD-PERP-INV` inverse perp, strike pattern for options). |
+| `exchange` | query | yes | string | The name of the exchange to filter by |
 | `market` | query | yes | string | The universal market symbol to filter by |
 | `start_datetime` | query | yes | string | The start time for the trade data. Accepts any format parseable by `parseDateTime64BestEffort` — e.g. a plain date (`2024-06-01`, treated as midnight UTC) or a full ISO 8601 timestamp (`2024-06-01T12:00:00Z`). |
 | `end_datetime` | query | yes | string | The end time for the trade data. Accepts any format parseable by `parseDateTime64BestEffort` — e.g. a plain date (`2024-06-02`, treated as midnight UTC) or a full ISO 8601 timestamp (`2024-06-02T12:00:00Z`). |

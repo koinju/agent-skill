@@ -149,6 +149,7 @@ Table name is `option_chains` (plural). _Full column list in the Live schema ref
 - `option_type` — Enum8 `'C'` / `'P'` (single char, **not** `'call'/'put'`). Note: `api.market_option.option_type` uses the full words `CALL`/`PUT` — inconsistency between the two tables.
 - `mark_iv` / `bid_iv` / `ask_iv` — implied vol (in **percent**, not decimal — see gotcha above). Use `mark_iv` for the smile.
 - Greeks: `delta`, `gamma`, `vega`, `theta` — **no `rho`**.
+- `index_price` / `underlying_price` — spot index vs the **per-expiry forward**. For Deribit, the forward (`underlying_price`) is the Black-76 pricing underlying, **not** spot. To recompute IV + Greeks from premiums yourself (e.g. for history older than the snapshot window), see [`option_iv_greeks.md`](option_iv_greeks.md).
 
 There is no `market` column — filter on `underlying_asset` + `quote_asset` + `expiration` + `strike`, or use `instrument_name`.
 

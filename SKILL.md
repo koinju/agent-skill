@@ -2,7 +2,7 @@
 name: koinju
 description: >-
   Use this skill for any query mentioning Koinju (koinju.io, api.koinju.io,
-  docs.koinju.io) — getting credentials, connecting, querying, integrating, or
+  docs.koinju.io, mcp koinju) — getting credentials, connecting, querying, integrating, or
   optimizing the Koinju API. Also use when the user wants crypto market data
   without naming Koinju: historical OHLCV/candles, tick trades, funding rates,
   option chains, implied volatility, vol smile, IV surface, DVOL — across
@@ -30,6 +30,7 @@ Most "test the API" sessions need only this. Read the Workflow below for nuance.
 - **Verify schema**: `bash ~/.claude/skills/koinju/scripts/probe-schema.sh [table]` — dumps live `api.*` tables and columns. Run before writing SQL against any table you haven't used this session. Note: `DESCRIBE` (what it uses) returns empty for parameterized views like `api.ohlcv` — that's "parameterized view", not "missing"; the script falls back to `SHOW CREATE` and prints the `{param:Type}` signature.
 - **Get credentials**: https://koinju.io/pricing → sign up → check email for the dataroom link. The credential template lives at `references/koinju.env.example` (the bootstrap copies it).
 - **Public REST** (no auth — market / product / instrument discovery): `curl -s 'https://api.koinju.io/market/spot' | jq '[.[] | select(.base == "BTC")]'`. See `references/rest.md`.
+- **MCP server** : `claude mcp add --transport http koinju https://mcp.koinju.io/mcp --header "x-api-key: $KOINJU_API_KEY"` gives eight read-only tools — `find_markets`, `get_ohlcv`, `get_trades`, `get_funding_rate`, `get_volatility_index`, `get_option_chain`, `get_option_smile`, `get_option_matrix` — over the same REST endpoints, spending the same key and quota. Call `find_markets` first: it returns the exact `exchange` and `market_symbol` the data tools want. Bulk history still belongs in SQL. Docs: https://docs.koinju.io/mcp-server
 - **Migration**: legacy `KOINJU_HOST` / `KOINJU_USER` / `KOINJU_PASSWORD` → current `KOINJU_DB_HOST` / `KOINJU_DB_USER` / `KOINJU_DB_PASSWORD` (and `KOINJU_API_KEY` is new). See [Migration](#migration-legacy-env-var-names) below for the one-liner.
 
 ## Workflow

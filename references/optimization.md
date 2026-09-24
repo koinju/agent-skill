@@ -1,6 +1,6 @@
 # Query optimization (Koinju ClickHouse)
 
-Koinju's tables are huge: `api.trade` is ~40 TB, `public_data.candle_1m` (source for `api.ohlcv`) ~4 TB. A query that doesn't constrain the scan will time out, throttle the connection, or burn the day's quota.
+Koinju's tables are huge: `api.trade` is ~40 TB, `public_data.candle_1m` (source for `api.ohlcv`) ~4 TB. Your plan limits how long each query runs and how many rows and bytes you get back per day, so an unconstrained scan fails and an oversized result uses up the day's allowance.
 
 ## Core rules
 
@@ -30,7 +30,7 @@ Koinju's tables are huge: `api.trade` is ~40 TB, `public_data.candle_1m` (source
 
 7. **Constrain `exchange` and `market`** when possible: these are the leading columns of the sort key on most tables, so `WHERE exchange IN (...)` is essentially free.
 
-8. **`SETTINGS max_execution_time = 30`** on exploratory queries — fail fast.
+8. **Don't set `max_execution_time`.** The time limit is fixed and changing it is refused; make the query cheaper instead.
 
 9. **Never `FINAL`.** These tables don't need it and it forces extra merges.
 
@@ -63,8 +63,7 @@ SELECT avg(close)                              AS arith_mean,
 FROM api.ohlcv(candle_duration_in_minutes = 1440)
 WHERE market   = 'LINK-USDT'
   AND exchange = 'binance'
-  AND start   >= now() - INTERVAL 365 DAY
-SETTINGS max_execution_time = 30;
+  AND start   >= now() - INTERVAL 365 DAY;
 ```
 
 **Mind the gap between rows returned and rows scanned.** `365` is the *output* count, not the scan cost: the `1440` view aggregates up from `public_data.candle_1m` on the fly, so a 1-year single-market window still reads on the order of hundreds of millions of 1m rows (~374M measured) before collapsing to 365 daily candles. It's far cheaper than scanning raw trades, but it is **not** a 365-row scan. Use `EXPLAIN ESTIMATE` (below) to see the real read size.

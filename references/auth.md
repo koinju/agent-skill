@@ -93,6 +93,37 @@ The Koinju credential flow is **paid sign-up → emailed dataroom link → crede
 
 Once they have the values, have them `export` the four variables in their shell profile (or a sourced `~/.koinju.env` as shown above).
 
+## Free demo database (no credentials)
+
+An agent without credentials can query the previous validated UTC day through the free demo database: no sign-up, user `demo` with an empty password. In `api`, `public_data` and `reference_data` the names and columns are production's, so the same SQL runs unchanged with a paid login later.
+
+| Setting | Value |
+|---|---|
+| Host | `sn7u7x3woz.eu-central-1.aws.clickhouse.cloud` |
+| Port | `8443` (HTTPS), `9440` (native, TLS) |
+| User / password | `demo` / empty |
+| Database | `api` |
+
+```python
+import clickhouse_connect
+
+client = clickhouse_connect.get_client(
+    host="sn7u7x3woz.eu-central-1.aws.clickhouse.cloud",
+    port=8443,
+    secure=True,
+    username="demo",
+    password="",
+    database="api",
+)
+print(client.query("SELECT min(timestamp), max(timestamp) FROM api.trade").result_rows)
+```
+
+- It holds one day, and the query above gives its bounds. A window such as `now() - INTERVAL 3 DAY` returns that one day at most.
+- It is read only: 10 s and 2 GB per query, and per IP address per hour 300 queries, 1.7 GB of answers and 60 s of query time.
+- `load_koinju_credentials()` and the bundled scripts need all four `KOINJU_*` variables non-empty, so connect directly as above.
+- A query that asks for a truncated answer (`result_overflow_mode = 'break'`) must also set `use_query_cache = 0`, or it fails with code 731.
+- Reference: https://docs.koinju.io/free-demo-database
+
 ## REST API
 
 | Endpoints | Auth | Free | Dev | Pro | Biz | Enterprise |

@@ -95,7 +95,7 @@ Once they have the values, have them `export` the four variables in their shell 
 
 ## Free demo database (no credentials)
 
-An agent without credentials can query the previous validated UTC day through the free demo database: no sign-up, user `demo` with an empty password. In `api`, `public_data` and `reference_data` the names and columns are production's, so the same SQL runs unchanged with a paid login later.
+An agent without credentials can query one validated UTC day, 18 October 2026 (`2026-10-18`), through the free demo database: no sign-up, user `demo` with an empty password. In `api`, `public_data` and `reference_data` the names and columns are production's, so the same SQL runs unchanged with a paid login later.
 
 | Setting | Value |
 |---|---|
@@ -118,7 +118,7 @@ client = clickhouse_connect.get_client(
 print(client.query("SELECT min(timestamp), max(timestamp) FROM api.trade").result_rows)
 ```
 
-- It holds one day, and the query above gives its bounds. A window such as `now() - INTERVAL 3 DAY` returns that one day at most.
+- It holds one day, 18 October 2026 (`2026-10-18`), and is not refreshed; the query above gives its bounds. Bound a query by that day, `timestamp >= '2026-10-18' AND timestamp < '2026-10-19'`, not by `now()`: a window such as `now() - INTERVAL 3 DAY` finds nothing from 22 October.
 - It is read only: 10 s and 2 GB per query, and per IP address per hour 300 queries, 1.7 GB of answers and 60 s of query time.
 - `load_koinju_credentials()` and the bundled scripts need all four `KOINJU_*` variables non-empty, so connect directly as above.
 - A query that asks for a truncated answer (`result_overflow_mode = 'break'`) must also set `use_query_cache = 0`, or it fails with code 731.

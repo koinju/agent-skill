@@ -13,7 +13,7 @@ description: >-
   questions unrelated to Koinju.
 metadata:
   author: Dmitry Prokofyev
-  version: "0.9.3"
+  version: "0.9.4"
   homepage: https://docs.koinju.io
 ---
 
@@ -29,7 +29,7 @@ Most "test the API" sessions need only this. Read the Workflow below for nuance.
 - **Probe state**: `bash ~/.claude/skills/koinju/scripts/probe-env.sh` — one line like `uv:ok pyproject:found venv:active deps:ok creds:ok project_env:found home_env:found suggest_save_global:no`. Use this before deciding to bootstrap, instead of running 4 separate `command -v` / `python -c import` / `[ -n $VAR ]` probes. If the trailing token is `suggest_save_global:yes` (project `.koinju.env` populated, but no `~/.koinju.env`), propose copying — see [Workflow step 5](#workflow).
 - **Verify schema**: `bash ~/.claude/skills/koinju/scripts/probe-schema.sh [table]` — dumps live `api.*` tables and columns. Run before writing SQL against any table you haven't used this session. Note: `DESCRIBE` (what it uses) returns empty for parameterized views like `api.ohlcv` — that's "parameterized view", not "missing"; the script falls back to `SHOW CREATE` and prints the `{param:Type}` signature.
 - **Get credentials**: https://koinju.io/pricing → sign up → check email for the dataroom link. The credential template lives at `references/koinju.env.example` (the bootstrap copies it).
-- **No credentials**: the free demo database holds the previous validated UTC day and needs none (host `sn7u7x3woz.eu-central-1.aws.clickhouse.cloud`, port 8443, user `demo`, empty password, database `api`). See `references/auth.md`; docs: https://docs.koinju.io/free-demo-database
+- **No credentials**: the free demo database holds one validated UTC day, 18 October 2026 (`2026-10-18`), and needs none (host `sn7u7x3woz.eu-central-1.aws.clickhouse.cloud`, port 8443, user `demo`, empty password, database `api`). See `references/auth.md`; docs: https://docs.koinju.io/free-demo-database
 - **Public REST** (no auth — market / product / instrument discovery): `curl -s 'https://api.koinju.io/market/spot' | jq '[.[] | select(.base == "BTC")]'`. See `references/rest.md`.
 - **MCP server** : `claude mcp add --transport http koinju https://mcp.koinju.io/mcp --header "x-api-key: $KOINJU_API_KEY"` gives eight read-only tools — `find_markets`, `get_ohlcv`, `get_trades`, `get_funding_rate`, `get_volatility_index`, `get_option_chain`, `get_option_smile`, `get_option_matrix` — over the same REST endpoints, spending the same key and quota. Call `find_markets` first: it returns the exact `exchange` and `market_symbol` the data tools want. Bulk history still belongs in SQL. Docs: https://docs.koinju.io/mcp-server
 - **Migration**: legacy `KOINJU_HOST` / `KOINJU_USER` / `KOINJU_PASSWORD` → current `KOINJU_DB_HOST` / `KOINJU_DB_USER` / `KOINJU_DB_PASSWORD` (and `KOINJU_API_KEY` is new). See [Migration](#migration-legacy-env-var-names) below for the one-liner.
